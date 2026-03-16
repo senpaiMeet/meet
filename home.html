@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Meet • Private Access</title>
+
+<style>
+
+:root{
+--primary:#ff4f8b;
+--bg1:#ffd1dc;
+--bg2:#fff7fb;
+--text:#333;
+}
+
+body.dark{
+--bg1:#1e1e2f;
+--bg2:#2c2c40;
+--text:#eee;
+}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:system-ui,Segoe UI,Roboto;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,var(--bg1),var(--bg2));
+transition:0.5s;
+overflow:hidden;
+color:var(--text);
+}
+
+/* app card */
+
+.card{
+width:380px;
+padding:40px;
+border-radius:18px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(20px);
+box-shadow:0 20px 40px rgba(0,0,0,0.2);
+text-align:center;
+position:relative;
+}
+
+/* progress */
+
+.progress{
+height:6px;
+background:#ddd;
+border-radius:4px;
+margin-bottom:20px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:var(--primary);
+transition:0.4s;
+}
+
+/* headings */
+
+h1{
+margin-bottom:15px;
+font-size:24px;
+}
+
+/* input */
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+margin:10px 0;
+}
+
+/* buttons */
+
+button{
+padding:12px 22px;
+margin:8px;
+border:none;
+border-radius:8px;
+background:var(--primary);
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+/* toggle */
+
+.toggle{
+position:absolute;
+top:15px;
+right:15px;
+cursor:pointer;
+font-size:14px;
+}
+
+/* petals */
+
+.petal{
+position:absolute;
+top:-40px;
+font-size:18px;
+animation:fall linear infinite;
+opacity:0.8;
+}
+
+@keyframes fall{
+0%{transform:translateY(-50px) rotate(0deg);}
+100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* special */
+
+.special{
+font-size:28px;
+color:#ff2f75;
+margin-bottom:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="toggle" onclick="toggleMode()">?? Mode</div>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div id="app">
+
+<h1>??Special Website Only For Meet and his friends etc </h1>
+
+<p>Enter password</p>
+
+<input type="password" id="password">
+
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+</div>
+
+</div>
+
+<script>
+
+const app=document.getElementById("app")
+const bar=document.getElementById("bar")
+
+/* progress */
+
+function setProgress(p){
+bar.style.width=p+"%"
+}
+
+/* dark mode */
+
+function toggleMode(){
+document.body.classList.toggle("dark")
+}
+
+/* LOGIN */
+
+function login(){
+
+let pass=document.getElementById("password").value
+
+if(pass==="Anime"){
+setProgress(25)
+question1()
+}
+
+else{
+document.getElementById("msg").textContent="Wrong password"
+}
+
+}
+
+/* QUESTION 1 */
+
+function question1(){
+
+app.innerHTML=`
+
+<h1>Question 1</h1>
+
+<p>Do you watch anime?</p>
+
+<button onclick="q1(true)">Yes</button>
+<button onclick="q1(false)">No</button>
+
+`
+
+}
+
+function q1(ans){
+
+if(!ans){
+
+app.innerHTML=`
+
+<h1>Access Restricted</h1>
+<p>This website is not for you.this website is only for my loved ones</p>
+
+`
+
+}
+
+else{
+setProgress(50)
+question2()
+}
+
+}
+
+/* QUESTION 2 */
+
+function question2(){
+
+app.innerHTML=`
+
+<h1>Question 2</h1>
+
+<p>Are you a special guest of Meet?</p>
+
+<button onclick="q2(true)">Yes</button>
+<button onclick="q2(false)">No</button>
+
+`
+
+}
+
+function q2(ans){
+
+if(!ans){
+
+app.innerHTML=`
+
+<h1>Access Denied you are restricted by meet</h1>
+<p>Only special guests are allowed.</p>
+
+`
+
+}
+
+else{
+setProgress(75)
+question3()
+}
+
+}
+
+/* QUESTION 3 */
+
+function question3(){
+
+app.innerHTML=`
+
+<h1>Final Question</h1>
+
+<p>What is your name?</p>
+
+<input id="name">
+
+<button onclick="finish()">Submit</button>
+
+`
+
+}
+
+/* RESULT */
+
+function finish(){
+
+let name=document.getElementById("name").value.toLowerCase()
+
+localStorage.setItem("visitor",name)
+
+setProgress(100)
+
+if(name==="anvi"){
+
+app.innerHTML=`
+
+<div class="special">?? Anvi ??</div>
+
+<p style="font-size:20px">I love you so much ??will you marry me</p>
+
+<p>You are the most special visitor. Be mine valentine forever</p>
+
+`
+
+}
+
+else{
+
+app.innerHTML=`
+
+<h1>Hello ${name}</h1>
+
+<p>Have a great day ??</p>
+
+`
+
+}
+
+}
+
+/* generate petals */
+
+for(let i=0;i<20;i++){
+
+let petal=document.createElement("div")
+petal.className="petal"
+petal.innerHTML="??"
+
+petal.style.left=Math.random()*100+"%"
+petal.style.animationDuration=5+Math.random()*5+"s"
+
+document.body.appendChild(petal)
+
+}
+
+</script>
+
+</body>
+</html>
+
